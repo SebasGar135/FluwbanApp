@@ -5,7 +5,7 @@ import RegisterScreen from '../screens/RegisterScreen';
 
 const Tab = createMaterialTopTabNavigator();
 
-export default function AuthTabs() {
+export default function AuthTabs({ setIsAuthenticated, setIsNewUser }) {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -16,8 +16,22 @@ export default function AuthTabs() {
         tabBarIndicatorStyle: { backgroundColor: '#E65100' },
       }}
     >
-      <Tab.Screen name="Login" component={LoginScreen} />
-      <Tab.Screen name="Register" component={RegisterScreen} />
+      <Tab.Screen name="Login">
+        {() => (
+          <LoginScreen
+            setIsAuthenticated={setIsAuthenticated}
+            setIsNewUser={setIsNewUser}
+          />
+        )}
+      </Tab.Screen>
+      <Tab.Screen name="Register">
+        {() => (
+          <RegisterScreen
+            setIsAuthenticated={setIsAuthenticated}
+            setIsNewUser={setIsNewUser}
+          />
+        )}
+      </Tab.Screen>
     </Tab.Navigator>
   );
 }

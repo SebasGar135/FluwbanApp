@@ -1,9 +1,25 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Button, Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-export default function RegisterScreen() {
+export default function RegisterScreen({ setIsAuthenticated, setIsNewUser }) {
+  const navigation = useNavigation();
+
+  const handleRegister = () => {
+    setIsNewUser(true);
+    setIsAuthenticated(true);
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Survey' }],
+    });
+  };
   return (
     <View style={styles.container}>
+      <Image
+        source={require('../assets/logo.png')}
+        style={styles.logo}
+        resizeMode="contain"
+      />
       <View style={styles.card}>
         <Text style={styles.label}>Usuario</Text>
         <TextInput
@@ -31,7 +47,7 @@ export default function RegisterScreen() {
           placeholderTextColor="#bdbdbd"
           secureTextEntry
         />
-        <TouchableOpacity style={styles.registerButton}>
+        <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
           <Text style={styles.registerButtonText}>Registrarse</Text>
         </TouchableOpacity>
         <View style={styles.dividerRow}>
@@ -58,6 +74,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  logo: {
+    width: 140,
+    height: 110,
+    marginBottom: 0,
+  },
   card: {
     backgroundColor: '#fff',
     borderRadius: 12,
@@ -65,6 +86,7 @@ const styles = StyleSheet.create({
     width: '90%',
     alignItems: 'center',
     elevation: 4,
+    marginBottom: 70,
   },
   label: {
     alignSelf: 'flex-start',

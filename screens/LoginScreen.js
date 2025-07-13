@@ -1,9 +1,26 @@
-import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Button } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-export default function LoginScreen({ navigation }) {
+export default function LoginScreen({ setIsAuthenticated, setIsNewUser }) {
+  const navigation = useNavigation();
+
+  const handleLogin = () => {
+    setIsNewUser(false);
+    setIsAuthenticated(true);
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'MainTabs' }],
+    });
+  };
+
   return (
     <View style={styles.container}>
+      <Image
+        source={require('../assets/logo.png')}
+        style={styles.logo}
+        resizeMode="contain"
+      />
       <View style={styles.card}>
         <Text style={styles.label}>Usuario</Text>
         <TextInput
@@ -21,7 +38,7 @@ export default function LoginScreen({ navigation }) {
         <TouchableOpacity>
           <Text style={styles.forgot}>Olvidé mi contraseña</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.loginButton}>
+        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
           <Text style={styles.loginButtonText}>Iniciar sesión</Text>
         </TouchableOpacity>
         <View style={styles.dividerRow}>
@@ -40,13 +57,17 @@ export default function LoginScreen({ navigation }) {
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#00665A',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  logo: {
+    width: 140,
+    height: 110,
+    marginBottom: 0,
   },
   card: {
     backgroundColor: '#fff',
@@ -55,6 +76,7 @@ const styles = StyleSheet.create({
     width: '90%',
     alignItems: 'center',
     elevation: 4,
+    marginBottom: 195,
   },
   label: {
     alignSelf: 'flex-start',
@@ -104,11 +126,13 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 1,
     backgroundColor: '#bdbdbd',
+    marginBottom: 15,
   },
   dividerCircle: {
     marginHorizontal: 8,
     color: '#bdbdbd',
     fontSize: 16,
+    marginBottom: 15,
   },
   socialButton: {
     backgroundColor: '#757575',
@@ -129,5 +153,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 16,
     alignSelf: 'center',
+    paddingBottom: 3,
+    marginTop: 30,
   },
 });
